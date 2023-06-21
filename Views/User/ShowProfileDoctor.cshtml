@@ -1,0 +1,636 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+@Html.Partial("_Head2");
+
+<body>
+    @Html.Partial("_Header");
+
+    <main id="main">
+
+        <!-- ======= Breadcrumbs Section ======= -->
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>PROFIL DOKTORA</h2>
+                    <ol>
+                        <li><a href="index.html">Početna</a></li>
+                        <li>Profil doktora</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section><!-- End Breadcrumbs Section -->
+
+        <section class="inner-page">
+            <div class="container">
+                        <div class="row gy-5" data-aos="fade-in">
+                            <div>
+                         
+
+                        <section id="doctors" class="doctors">
+                            <div class="container">
+                            <div class="row">
+                            <div class="col-lg-6">
+                                <div class="member d-flex align-items-start">
+                                    <div class="pic"><img src="../../@ViewBag.Doctor.picture" class="img-fluid" alt=""></div>
+                                    <div class="member-info">
+                                        <h4>@ViewBag.Doctor.fullName</h4>
+                                        <span>Username: @ViewBag.Doctor.userName</span>
+                                        <span>Specialization: @ViewBag.Doctor.specialization</span>
+                                                <span>Average rating: <label style="color:black" id="Average"> @ViewBag.Doctor.average </label><label style="color:black"> / 5</label></span>
+                                        
+                                        <div class="social">
+                                            <a href=""><i class="ri-twitter-fill"></i></a>
+                                            <a href=""><i class="ri-facebook-fill"></i></a>
+                                            <a href=""><i class="ri-instagram-fill"></i></a>
+                                            <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </section>
+                        <div class="row">
+                                    <div>
+                                        <fieldset class="rating">                            
+                                            <input type="radio" id="star5" name="rating" value="5" />
+                                            <label for="star5" title="Rocks!">5 stars</label>
+                                            <input type="radio" id="star4" name="rating" value="4" />
+                                            <label for="star4" title="Pretty good">4 stars</label>
+                                            <input type="radio" id="star3" name="rating" value="3" />
+                                            <label for="star3" title="Meh">3 stars</label>
+                                            <input type="radio" id="star2" name="rating" value="2" />
+                                            <label for="star2" title="Kinda bad">2 stars</label>
+                                            <input type="radio" id="star1" name="rating" value="1" />
+                                            <label for="star1" title="Sucks big time">1 star</label>
+                                        </fieldset>                        
+                                    </div>
+                                    <div id="thanksforrating"></div>
+                            <div >
+                                <button type="button" id="RateDoctor" class="btn btn-warning">Oceni doktora</button>
+                            </div>
+                        </div>
+                
+                                    
+                                <div class="left">
+                                    <h2>Izaberite intervenciju i dan</h2>
+                                @foreach (InterventionDTO i in ViewBag.Doctor.interventions)
+                                {
+                                    <div class="checkboxClass">
+                                        <input class="form-check-input myCheckbox" type="checkbox" id="@i.interventionID" name="inter" value="@i.name">
+                                        <label class="form-check-label darkText" for="@i.interventionID"> @i.name (~@i.timeInMinutes)</label><br>
+                                        <input  type="number"  name="@i.interventionID" min="0" max="10">
+                                    </div>
+                                }
+                                <input id="pickDate" type="date">
+
+                                <form id="formAppointment">
+                                <button type="button" id="appointment" class="btn btn-primary">Zakazivanje za narednih 7 dana</button>
+                                    
+                                </form>
+                                </div>
+
+                                <div id="Appointments">
+                                </div>
+
+                            <div id="commentID">
+                            <h1 class="checkboxText">Komentari</h1>
+                                @foreach (CommentDTO c in ViewBag.Doctor.comments)
+                                {
+                                    <div class="comment darkk item">
+                                        <img src="@c.image" alt="" class="rounded-circle" width="40" height="40">
+                                    <h4 class="checkboxText">@c.fullName</h4>
+                                        <span class="checkboxText">@c.date.Date</span>
+                                        <br>
+                                    <p class="checkboxText">@c.commentContent</p>
+                                    </div>
+                                }
+
+
+                            <div class="darkk">
+                                    <input name="text" id="CommentText" class="form-control" required />
+                                    <input type="submit" id="CommentDoctor" value="Comment" class="btn btn-primary mr" />
+                            </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    @Html.Partial("_Footer");
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="../../../../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="../../../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../../assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../../../../assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="../../../../assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../../../../assets/js/main.js"></script>
+
+</body>
+
+</html>
+
+
+
+<script>
+    function refreshPage() {
+        location.reload(true);
+    }
+    const buttonCommentDoctor = document.getElementById("CommentDoctor");
+    buttonCommentDoctor.addEventListener("click", function () {
+        const inputText = document.getElementById("CommentText");
+        fetch(`/User/CommentDoctor/?to=@ViewBag.Doctor.userName&from=@User.Identity.Name&text=${inputText.value}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+        .then(data => {
+                 refreshPage()
+        });
+    })
+
+
+
+
+
+
+
+
+
+
+    const buttonRate = document.getElementById("RateDoctor");
+    buttonRate.addEventListener("click", function () {   
+        const rating = document.querySelector('input[name="rating"]:checked').value;
+        fetch(`/User/RateDoctor/?to=@ViewBag.Doctor.userName&from=@User.Identity.Name&rating=${rating}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }          
+        }).then(response => response.json())
+            .then(data => {
+                document.getElementById("Average").innerHTML = data;
+                const wholeData = parseInt(data+0.5);
+                document.getElementById(`star${wholeData}`).checked = true;
+
+                const divThanks = document.getElementById("thanksforrating");
+                divThanks.innerHTML="";
+                const pThanks = document.createElement("p");
+                pThanks.textContent = "Thanks for voting!";
+                divThanks.appendChild(pThanks);
+            });
+    });
+    function showItems(startIndex, endIndex) {
+        var items = document.getElementsByClassName('item');
+        console.log(items);
+        console.log(""+startIndex+" "+endIndex);
+        // Hide all items
+        for (var i = 0; i < items.length; i++) {
+            items[i].style.display = 'none';
+        }
+
+        // Show items within the specified range
+        for (var i = startIndex; i <= endIndex && i < items.length; i++) {
+            items[i].style.display = 'block';
+        }
+    }
+
+    showItems(0,4);
+    var x = document.getElementsByClassName('item');
+    var divForComments = document.getElementById('commentID');
+    for(let z=0;z<x.length/5;z++)
+    {
+        const buttonShowHide = document.createElement('button');
+        buttonShowHide.innerHTML = `${z+1}`;
+        buttonShowHide.setAttribute('class','btn btn-primary');
+
+        buttonShowHide.onclick = function () {
+            showItems(z*5,z*5+4);
+        }; 
+        divForComments.appendChild(buttonShowHide);
+    }
+
+
+
+
+    const form = document.getElementById('formAppointment');
+    const buttonApp = document.getElementById('appointment');
+
+    buttonApp.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const interventions = []
+
+        var checkedBoxes = document.querySelectorAll('input[name=inter]:checked');
+
+        for (let i = 0; i < checkedBoxes.length; i++) {
+            var id = checkedBoxes[i].id;
+            var input = document.getElementsByName(`${id}`)[0];
+
+            for (let j = 0; j < input.value; j++)
+            interventions.push(checkedBoxes[i].id);
+        }
+        const startTime = document.getElementById("pickDate")
+        const formData = { "fromWho": "@User.Identity.Name", "ToWho": "@ViewBag.Doctor.userName", "startTime": startTime.value, "interventions": interventions };
+        const appointment = JSON.stringify(formData);
+
+        fetch('/User/FreeTime', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+            body: appointment
+        }).then(response => response.json())
+            .then(data => {
+                const divAppointments = document.getElementById("Appointments");
+                divAppointments.innerHTML = "";
+                console.log(data); 
+                for (let i = 0; i < data.length; i++)
+                {
+                    const div = document.createElement('div');
+                    div.setAttribute("class","section");
+                    const dayAndDate = document.createElement('h2');
+                    dayAndDate.setAttribute("class", "section-title");
+                    
+                    console.log(data[i][0])
+                    const deserOBJ = JSON.parse(data[i][0].startDate);
+                    const deserTime = new Date(deserOBJ.DateTime);
+                    dayAndDate.innerText = `${deserTime.getDate()}/${deserTime.getMonth()}`;
+                   
+                    div.appendChild(dayAndDate);
+                    const divSectionContent = document.createElement('div');
+                    divSectionContent.setAttribute("class", "section-content cards");
+                    for(let j=0;j<data[i].length;j++)
+                    {     
+                        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        const deserializedObject = JSON.parse(data[i][j].startDate);
+                        //console.log(deserializedObject.DateTime);
+                        const startDate = new Date(deserializedObject.DateTime);
+                        const endDate = new Date();
+                        startDate.setHours(data[i][j].startHours);
+                        startDate.setMinutes(data[i][j].startMinutes);
+                        endDate.setHours(data[i][j].endHours);
+                        endDate.setMinutes(data[i][j].endMinutes);
+                        
+                        var para = document.createElement("p");
+                        para.innerText = "" + startDate.getHours() + ":" + startDate.getMinutes() + "  -  " + endDate.getHours() + ":" + endDate.getMinutes();
+                        if (data[i][j].isAvailable == true) {
+                            var button = document.createElement("button");
+                            button.innerHTML = "Zakazi";
+                            
+                            //button.id = i;
+                            para.style.backgroundColor = "#609966";
+
+                            button.addEventListener("click", function () { 
+                                
+                                //console.log(deserializedObject.DateTime);
+                                //console.log(startDate.toString());
+                                //console.log("Button " + (i) + " was clicked" + startDate.toString())
+                                const Obj = { "fromWho": "@User.Identity.Name", "ToWho": "@ViewBag.Doctor.userName", "startTime": startDate, "interventions": interventions };
+                                const app = JSON.stringify(Obj);
+                                fetch('/User/MakeAppointment', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: app
+                                }).then(response => response.json())
+                                    .then(responseData => {
+                                        const refresh = document.getElementById("appointment");
+                                        refresh.click();
+
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                    });
+
+
+                            })
+                            //new
+                            const divCard = document.createElement('div');
+                            divCard.setAttribute("class", "product");
+                            divCard.appendChild(para);
+                            divCard.appendChild(button);
+
+                            //divSectionContent.appendChild(para);
+                            //divSectionContent.appendChild(button);
+                            divSectionContent.appendChild(divCard); //new
+
+                            div.appendChild(divSectionContent);
+                        } else {
+                            para.style.backgroundColor = "#E97777";
+                            //new
+                            const divCard = document.createElement('div');
+                            divCard.setAttribute("class", "product");
+                            divCard.appendChild(para);
+                            divSectionContent.appendChild(divCard);
+                            //divSectionContent.appendChild(para);
+                            div.appendChild(divSectionContent);
+                            if (data[i][j].isItMyTerm == true) {
+                                var buttonCancel = document.createElement("button");
+                                buttonCancel.innerHTML = "Otkazi";
+                                //new 
+                                divCard.appendChild(buttonCancel);
+                                divSectionContent.appendChild(divCard);
+                                //divSectionContent.appendChild(buttonCancel);
+                                div.appendChild(divSectionContent);
+
+                                buttonCancel.addEventListener("click", function () {
+
+                                    const deserializedObject = JSON.parse(data[i][j].startDate);
+                                    //console.log(deserializedObject.DateTime);
+                                    const startDate = new Date(deserializedObject.DateTime);                                    
+                                    startDate.setHours(data[i][j].startHours);
+                                    startDate.setMinutes(data[i][j].startMinutes);
+
+
+                                    //console.log("Button " + (i) + " was clicked" + startDate.toString())
+                                    const Obj = { "fromWho": "@User.Identity.Name", "ToWho": "@ViewBag.Doctor.userName", "startTime": startDate };
+                                    const app = JSON.stringify(Obj);
+                                    fetch('/User/DeleteMyAppointment', {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: app
+                                    }).then(response => response.json())
+                                        .then(responseData => {                                            
+                                           const refresh = document.getElementById("appointment");
+                                           refresh.click();
+                                           
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                        });
+                                })
+
+                            } 
+                        }
+                    }
+                    divAppointments.appendChild(div);
+                }
+                
+                const sectionTitles = document.querySelectorAll('.section-title');
+                // Add click event listener to each section title
+                sectionTitles.forEach((title) => {
+                    title.addEventListener('click', function () {
+                        const content = this.nextElementSibling; // Get the section content
+                        const isActive = content.classList.toggle('active'); // Toggle the 'active' class
+
+                        if (isActive) {
+                            content.style.maxHeight = content.scrollHeight + 'px'; // Expand the content
+                        } else {
+                            content.style.maxHeight = '0'; // Close the content
+                        }
+
+                        // Change the title's appearance based on the content's visibility
+                        if (isActive) {
+                            this.classList.add('active');
+                        } else {
+                            this.classList.remove('active');
+                        }
+                    });
+                });
+
+            });
+    });
+
+
+
+    
+
+
+</script>
+
+
+
+
+
+
+<style>
+    .darkText{
+        color:black;
+        font:20px;
+        
+    }
+    .left{
+        
+    }
+    .myCheckbox{
+        transform: scale(1.5); /* Adjust the scale factor to increase or decrease the size */
+        margin: 10px; 
+    }
+    .checkboxText
+    {
+        color:rgb(5,5,5);
+    }
+    .checkboxClass
+    {
+        margin:10px;
+        align-items:center;
+        
+    }
+    .btn
+    {
+        margin:10px;
+        margin-left:0px
+    }
+    .product {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border: 2px solid black;
+        margin: 10px;
+        text-align: center;
+        float: left;        
+    }
+
+
+    .section-title {
+        cursor: pointer;
+    }
+
+
+    .section-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+        .section-content.active {
+            max-height: 500px; /* Adjust the value to fit your content */
+        }
+
+    .rating {
+        float: left;
+    }
+
+        .rating:not(:checked) > input {
+            position: absolute;
+            top: -9999px;
+            clip: rect(0,0,0,0);
+        }
+
+        .rating:not(:checked) > label {
+            float: right;
+            width: 1em;
+            padding: 0 .1em;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 200%;
+            line-height: 1.2;
+            color: #ddd;
+            text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0,0,0,.5);
+        }
+
+            .rating:not(:checked) > label:before {
+                content: '★ ';
+            }
+
+        .rating > input:checked ~ label {
+            color: #f70;
+            text-shadow: 1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0,0,0,.5);
+        }
+
+        .rating:not(:checked) > label:hover,
+        .rating:not(:checked) > label:hover ~ label {
+            color: gold;
+            text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+        }
+
+        .rating > input:checked + label:hover,
+        .rating > input:checked + label:hover ~ label,
+        .rating > input:checked ~ label:hover,
+        .rating > input:checked ~ label:hover ~ label,
+        .rating > label:hover ~ input:checked ~ label {
+            color: #ea0;
+            text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0,0,0,.5);
+        }
+
+        .rating > label:active {
+            position: relative;
+            top: 2px;
+            left: 2px;
+        }
+
+    .clearfix:before,
+    .clearfix:after {
+        content: " "; /* 1 */
+        display: table; /* 2 */
+    }
+
+    .clearfix:after {
+        clear: both;
+    }
+
+    .clearfix {
+        *zoom: 1;
+    }
+
+    #status, button {
+        margin: 20px 0;
+    }
+
+
+
+    .comments {
+        margin-top: 5%;
+        margin-left: 20px;
+    }
+
+    .darker {
+        border: 1px solid #ecb21f;
+        background-color: black;
+        float: right;
+        border-radius: 5px;
+        padding-left: 40px;
+        padding-right: 30px;
+        padding-top: 10px;
+    }
+
+    .comment {
+       
+        background-color: rgba(16, 46, 46, 0.973);
+        
+        border-radius: 5px;
+        padding-left: 40px;
+        padding-right: 30px;
+        padding-top: 10px;
+    }
+
+        .comment h4, .comment span, .darker h4, .darker span {
+            display: inline;
+        }
+
+
+    h1, h4 {
+        color: white;
+        font-weight: bold;
+    }
+
+    label {
+        color: rgb(212, 208, 208);
+    }
+
+    #align-form {
+        margin-top: 20px;
+    }
+
+    .form-group p a {
+        color: white;
+    }
+
+    #checkbx {
+        background-color: black;
+    }
+
+    #darker img {
+        margin-right: 15px;
+        position: static;
+    }
+
+    .form-group, .form-group textarea {
+        background-color: black;
+        border: 1px solid rgba(16, 46, 46, 1);
+        border-radius: 12px;
+    }
+    .mr{
+        margin-top : 10px;
+    }
+    .darkk {
+        
+        background-color: #f1f7fd;
+        border-radius: 5px;
+        padding: 20px;
+        margin:20px;
+    }
+</style>
+
+
+
+<script>
+    document.getElementById("star@(((int)(ViewBag.Doctor.average + .5)).ToString())").checked = true
+</script>
